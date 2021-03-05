@@ -5,7 +5,10 @@ import * as yup from 'yup';
 import phonebookOperations from '../../redux/phoneBook/phoneBook-operations';
 import styles from './ContactForm.module.css';
 import Notification from '../Notification/Notification';
-import { getAllContacts } from '../../redux/phoneBook/phoneBook-selectors';
+import {
+  getAllContacts,
+  getErrorMessage,
+} from '../../redux/phoneBook/phoneBook-selectors';
 
 const validationSchema = yup.object({
   name: yup.string().required("Enter contact's name"),
@@ -37,8 +40,12 @@ class ContactForm extends Component {
     return (
       <>
         <Notification
-          isContactExists={isContactExists}
+          notificationInit={isContactExists}
           message="This contact already exists in your phonebook."
+        />
+        <Notification
+          notificationInit={this.props.errorMessage ? true : false}
+          message={this.props.errorMessage}
         />
         <Formik
           initialValues={{ name: '', number: '' }}
@@ -85,6 +92,7 @@ class ContactForm extends Component {
 
 const mapStateToProps = state => ({
   contacts: getAllContacts(state),
+  errorMessage: getErrorMessage(state),
 });
 
 const mapDispatchToProps = dispatch => ({

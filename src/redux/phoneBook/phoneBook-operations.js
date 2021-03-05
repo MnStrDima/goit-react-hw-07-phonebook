@@ -9,7 +9,11 @@ import {
   deleteContactRequest,
   deleteContactSuccess,
   deleteContactError,
+  errorRemover,
 } from './phoneBook-actions';
+
+const resetError = dispatch =>
+  setTimeout(() => dispatch(errorRemover(null)), 3000);
 
 axios.defaults.baseURL = 'http://localhost:4040';
 
@@ -18,13 +22,13 @@ const fetchContacts = () => async dispatch => {
 
   try {
     const { data } = await axios.get('/contacts');
-    console.log(data);
     if (data) {
       return dispatch(fetchContactsSuccess(data));
     }
     return Promise.reject(new Error(`Sorry... Something went wrong.`));
   } catch (error) {
     dispatch(fetchContactsError(error.message));
+    resetError(dispatch);
   }
 };
 
@@ -40,6 +44,7 @@ const addContact = contactObj => async dispatch => {
     return Promise.reject(new Error(`Sorry... Something went wrong.`));
   } catch (error) {
     dispatch(addContactError(error.message));
+    resetError(dispatch);
   }
 };
 
@@ -55,6 +60,7 @@ const deleteContact = contactId => async dispatch => {
     return Promise.reject(new Error(`Sorry... Something went wrong.`));
   } catch (error) {
     dispatch(deleteContactError(error.message));
+    resetError(dispatch);
   }
 };
 

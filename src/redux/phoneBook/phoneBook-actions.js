@@ -14,3 +14,4 @@ export const deleteContactSuccess = createAction(types.deleteSuccess);
 export const deleteContactError = createAction(types.deleteError);
 
 export const changeFilter = createAction(types.changeFilter);
+export const errorRemover = createAction(types.errorRemove);

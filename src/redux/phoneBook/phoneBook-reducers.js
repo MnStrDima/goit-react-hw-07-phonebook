@@ -11,20 +11,30 @@ import {
   deleteContactSuccess,
   deleteContactError,
   changeFilter,
+  errorRemover,
 } from './phoneBook-actions';
 
-const items = createReducer([], {
+const initialState = {
+  contacts: {
+    items: [],
+    filter: '',
+    isLoading: false,
+    error: '',
+  },
+};
+
+const items = createReducer(initialState.contacts.items, {
   [fetchContactsSuccess]: (_, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [...state, payload],
   [deleteContactSuccess]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
 
-const filter = createReducer('', {
+const filter = createReducer(initialState.contacts.filter, {
   [changeFilter]: (_, { payload }) => payload,
 });
 
-const loading = createReducer(false, {
+const isLoading = createReducer(initialState.contacts.isLoading, {
   [fetchContactsRequest]: () => true,
   [fetchContactsSuccess]: () => false,
   [fetchContactsError]: () => false,
@@ -36,15 +46,16 @@ const loading = createReducer(false, {
   [deleteContactError]: () => false,
 });
 
-const error = createReducer(null, {
+const error = createReducer(initialState.contacts.error, {
   [fetchContactsError]: (_, { payload }) => payload,
   [addContactError]: (_, { payload }) => payload,
   [deleteContactError]: (_, { payload }) => payload,
+  [errorRemover]: (_, { payload }) => payload,
 });
 
 export default combineReducers({
   items,
   filter,
-  loading,
+  isLoading,
   error,
 });

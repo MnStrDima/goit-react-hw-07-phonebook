@@ -3,9 +3,9 @@ import { CSSTransition } from 'react-transition-group';
 import notificationTransitionStyles from '../../transitionStyles/notificationTransition.module.css';
 import styles from './Notification.module.css';
 
-const Notification = ({ message, isContactExists }) => (
+const Notification = ({ message, notificationInit }) => (
   <CSSTransition
-    in={isContactExists}
+    in={notificationInit}
     timeout={250}
     classNames={notificationTransitionStyles}
     unmountOnExit
