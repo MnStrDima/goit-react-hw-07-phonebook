@@ -44,7 +44,7 @@ class ContactForm extends Component {
           message="This contact already exists in your phonebook."
         />
         <Notification
-          notificationInit={this.props.errorMessage ? true : false}
+          notificationInit={Boolean(this.props.errorMessage)}
           message={this.props.errorMessage}
         />
         <Formik

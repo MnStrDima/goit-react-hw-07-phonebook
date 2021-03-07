@@ -22,10 +22,7 @@ const fetchContacts = () => async dispatch => {
 
   try {
     const { data } = await axios.get('/contacts');
-    if (data) {
-      return dispatch(fetchContactsSuccess(data));
-    }
-    return Promise.reject(new Error(`Sorry... Something went wrong.`));
+    return dispatch(fetchContactsSuccess(data));
   } catch (error) {
     dispatch(fetchContactsError(error.message));
     resetError(dispatch);
@@ -37,11 +34,7 @@ const addContact = contactObj => async dispatch => {
 
   try {
     const { data } = await axios.post('/contacts', contactObj);
-
-    if (data) {
-      return dispatch(addContactSuccess(data));
-    }
-    return Promise.reject(new Error(`Sorry... Something went wrong.`));
+    return dispatch(addContactSuccess(data));
   } catch (error) {
     dispatch(addContactError(error.message));
     resetError(dispatch);
@@ -52,12 +45,8 @@ const deleteContact = contactId => async dispatch => {
   dispatch(deleteContactRequest());
 
   try {
-    const response = await axios.delete(`/contacts/${contactId}`);
-
-    if (response) {
-      return dispatch(deleteContactSuccess(contactId));
-    }
-    return Promise.reject(new Error(`Sorry... Something went wrong.`));
+    await axios.delete(`/contacts/${contactId}`);
+    return dispatch(deleteContactSuccess(contactId));
   } catch (error) {
     dispatch(deleteContactError(error.message));
     resetError(dispatch);
